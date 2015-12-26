@@ -96,13 +96,14 @@ void print_graph( WeightedGraph<string> graph)
   cout << endl;
 }
 
-vector< WeightedEdge<string> >  kruskals_algorithm( WeightedGraph<string> graph )
+template <class T>
+vector< WeightedEdge<T> >  kruskals_algorithm( WeightedGraph<T> graph )
 {
   /**
    * This implementation of Kruskal's Algorithm is based on:
    * https://en.wikipedia.org/wiki/Kruskal%27s_algorithm
    **/
-  Disjoint_Set<string> connected;
+  Disjoint_Set<T> connected;
 
   // add the nodes in the graph to the disjoint-set data structure
   for(auto &node : graph.nodes){
@@ -111,16 +112,16 @@ vector< WeightedEdge<string> >  kruskals_algorithm( WeightedGraph<string> graph 
 
   // sort the edges in the graph by weight, in ascending order
   sort(graph.edges.begin(), graph.edges.end(),
-       [](WeightedEdge<string> a, WeightedEdge<string> b){
+       [](WeightedEdge<T> a, WeightedEdge<T> b){
 	 return a.weight < b.weight;
        });
 
   // extract the minimum spanning tree
-  vector< WeightedEdge<string> > output;
+  vector< WeightedEdge<T> > output;
   // start with the smallest-weighted edges
   for(auto &weighted_edge : graph.edges){
-    string u = weighted_edge.edge.first;
-    string v = weighted_edge.edge.second;
+    T u = weighted_edge.edge.first;
+    T v = weighted_edge.edge.second;
     // if this edge connects two previously-unconnected bits of graph,
     // then add it to the output
     if( connected.find(u) != connected.find(v) ){
