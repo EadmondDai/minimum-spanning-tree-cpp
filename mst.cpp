@@ -33,6 +33,9 @@ struct WeightedGraph
 
 WeightedGraph<string> get_input()
 {
+  /**
+   * Processes the input in stdin, returns the corresponding WeightedGraph
+   **/
   WeightedGraph<string> g;
 
   // next line is the number of vectors
@@ -73,6 +76,9 @@ WeightedGraph<string> get_input()
 
 void print_graph( WeightedGraph<string> graph)
 {
+  /**
+   * Utility method for printing out a WeightedGraph
+   **/
   cout << "nodes: " << endl;
   for(auto &node : graph.nodes){
     cout << node << " " << endl;
@@ -90,24 +96,33 @@ void print_graph( WeightedGraph<string> graph)
   cout << endl;
 }
 
-
-vector< WeightedEdge<string> >  kruskals_algorithm( WeightedGraph<string> graph ){
+vector< WeightedEdge<string> >  kruskals_algorithm( WeightedGraph<string> graph )
+{
+  /**
+   * This implementation of Kruskal's Algorithm is based on:
+   * https://en.wikipedia.org/wiki/Kruskal%27s_algorithm
+   **/
   Disjoint_Set<string> connected;
 
+  // add the nodes in the graph to the disjoint-set data structure
   for(auto &node : graph.nodes){
     connected.make_set(node);
   }
 
+  // sort the edges in the graph by weight, in ascending order
   sort(graph.edges.begin(), graph.edges.end(),
        [](WeightedEdge<string> a, WeightedEdge<string> b){
 	 return a.weight < b.weight;
        });
 
+  // extract the minimum spanning tree
   vector< WeightedEdge<string> > output;
-
+  // start with the smallest-weighted edges
   for(auto &weighted_edge : graph.edges){
     string u = weighted_edge.edge.first;
     string v = weighted_edge.edge.second;
+    // if this edge connects two previously-unconnected bits of graph,
+    // then add it to the output
     if( connected.find(u) != connected.find(v) ){
       output.push_back(weighted_edge);
       connected.do_union(u, v);
