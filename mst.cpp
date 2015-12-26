@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include "disjointset.h"
+#include "weightedgraph.h"
 
 using std::string;
 using std::cin;
@@ -14,20 +15,6 @@ using std::vector;
 using namespace boost;
 
 
-template <class T>
-struct WeightedEdge
-{
-  T first, second;
-  float weight;
-};
-
-
-template <class T>
-struct WeightedGraph
-{
-  vector<T> nodes;
-  vector< WeightedEdge<T> > edges;
-};
 
 
 WeightedGraph<string> get_input()
