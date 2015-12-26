@@ -1,7 +1,5 @@
 #include <vector>
 
-using std::vector;
-
 template <class T>
 struct WeightedEdge
 {
@@ -13,6 +11,6 @@ struct WeightedEdge
 template <class T>
 struct WeightedGraph
 {
-  vector<T> nodes;
-  vector< WeightedEdge<T> > edges;
+  std::vector<T> nodes;
+  std::vector< WeightedEdge<T> > edges;
 };
