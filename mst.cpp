@@ -15,70 +15,6 @@ using std::vector;
 using namespace boost;
 
 
-
-
-WeightedGraph<string> get_input()
-{
-  /**
-   * Processes the input in stdin, returns the corresponding WeightedGraph
-   **/
-  WeightedGraph<string> g;
-
-  // next line is the number of vectors
-  int num_vectors;
-  cin >> num_vectors;
-
-  // get the vectors
-  for(int i = 0; i < num_vectors; i++){
-    string node;
-    cin >> node;
-    g.nodes.push_back(node);
-  }
-
-  // next line is the number of edges
-  int num_edges;
-  cin >> num_edges;
-
-  vector <string> tokens;
-
-  // get the edges
-  for(int i = 0; i < num_edges; i++){
-    string line;
-    cin >> line;
-    split(tokens, line, is_any_of(" ,"), token_compress_on);
-
-    WeightedEdge<string> weighted_edge;
-    weighted_edge.first = tokens[0];
-    weighted_edge.second = tokens[1];
-
-    weighted_edge.weight = std::stof(tokens[2]);
-
-    g.edges.push_back(weighted_edge);
-  }
-
-  return g;
-}
-
-
-void print_graph( WeightedGraph<string> graph)
-{
-  /**
-   * Utility method for printing out a WeightedGraph
-   **/
-  cout << "nodes: " << endl;
-  for(auto &node : graph.nodes){
-    cout << node << " " << endl;
-  }
-  cout << endl;
-
-  cout << "edges: " << endl;
-  for(auto &entry : graph.edges){
-    cout << entry.first << " - " << entry.second << ": " << entry.weight << endl;
-  }
-
-  cout << endl;
-}
-
 template <class T>
 vector< WeightedEdge<T> >  kruskals_algorithm( WeightedGraph<T> graph )
 {
@@ -115,16 +51,82 @@ vector< WeightedEdge<T> >  kruskals_algorithm( WeightedGraph<T> graph )
 }
 
 
+WeightedGraph<string> get_input()
+{
+  /**
+   * Processes the input in stdin, returns the corresponding WeightedGraph
+   **/
+  WeightedGraph<string> g;
+
+  // next line is the number of vectors
+  int num_vectors;
+  cin >> num_vectors;
+
+  // get the vectors
+  for(int i = 0; i < num_vectors; i++){
+    string node;
+    cin >> node;
+    g.nodes.push_back(node);
+  }
+
+  // next line is the number of edges
+  int num_edges;
+  cin >> num_edges;
+
+  vector <string> tokens;
+
+  // get the edges
+  for(int i = 0; i < num_edges; i++){
+    string line;
+    cin >> line;
+    split(tokens, line, is_any_of(" ,"), token_compress_on);
+
+    WeightedEdge<string> weighted_edge;
+    weighted_edge.first = tokens[0];
+    weighted_edge.second = tokens[1];
+    weighted_edge.weight = std::stof(tokens[2]);
+
+    g.edges.push_back(weighted_edge);
+  }
+
+  return g;
+}
+
+
+void print_graph( WeightedGraph<string> graph)
+{
+  /**
+   * Utility method for printing out a WeightedGraph
+   **/
+  // print nodes
+  cout << "nodes: " << endl;
+  for(auto &node : graph.nodes){
+    cout << node << " " << endl;
+  }
+  cout << endl;
+
+  // print edges
+  cout << "edges: " << endl;
+  for(auto &entry : graph.edges){
+    cout << entry.first << " - " << entry.second << ": " << entry.weight << endl;
+  }
+  cout << endl;
+}
+
+
 int main ()
 {
+  // get the input from stdio
   WeightedGraph<string> graph = get_input();
 
+  // print the graph
   print_graph(graph);
 
+  // calculate the minimum spanning tree
   vector< WeightedEdge<string> > mst = kruskals_algorithm(graph);
 
+  // print the result
   cout << "Minimum spanning tree: " << endl;
-
   for(auto &weighted_edge : mst){
     cout << weighted_edge.first << " - " << weighted_edge.second << ": " << weighted_edge.weight << endl;
   }
