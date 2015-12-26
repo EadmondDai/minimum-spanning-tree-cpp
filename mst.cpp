@@ -10,7 +10,6 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::vector;
-using std::pair;
 
 using namespace boost;
 
@@ -18,7 +17,7 @@ using namespace boost;
 template <class T>
 struct WeightedEdge
 {
-  pair<T,T> edge;
+  T first, second;
   float weight;
 };
 
@@ -62,8 +61,8 @@ WeightedGraph<string> get_input()
     split(tokens, line, is_any_of(" ,"), token_compress_on);
 
     WeightedEdge<string> weighted_edge;
-    weighted_edge.edge.first = tokens[0];
-    weighted_edge.edge.second = tokens[1];
+    weighted_edge.first = tokens[0];
+    weighted_edge.second = tokens[1];
 
     weighted_edge.weight = std::stof(tokens[2]);
 
@@ -87,10 +86,7 @@ void print_graph( WeightedGraph<string> graph)
 
   cout << "edges: " << endl;
   for(auto &entry : graph.edges){
-    pair<string,string> edge = entry.edge;
-    float weight = entry.weight;
-
-    cout << edge.first << " - " << edge.second << ": " << weight << endl;
+    cout << entry.first << " - " << entry.second << ": " << entry.weight << endl;
   }
 
   cout << endl;
@@ -119,14 +115,12 @@ vector< WeightedEdge<T> >  kruskals_algorithm( WeightedGraph<T> graph )
   // extract the minimum spanning tree
   vector< WeightedEdge<T> > output;
   // start with the smallest-weighted edges
-  for(auto &weighted_edge : graph.edges){
-    T u = weighted_edge.edge.first;
-    T v = weighted_edge.edge.second;
+  for(auto &we : graph.edges){
     // if this edge connects two previously-unconnected bits of graph,
-    // then add it to the output
-    if( connected.find(u) != connected.find(v) ){
-      output.push_back(weighted_edge);
-      connected.do_union(u, v);
+    if( connected.find(we.first) != connected.find(we.second) ){
+      // then add it to the output
+      output.push_back(we);
+      connected.do_union(we.first, we.second);
     }
   }
 
@@ -145,7 +139,7 @@ int main ()
   cout << "Minimum spanning tree: " << endl;
 
   for(auto &weighted_edge : mst){
-    cout << weighted_edge.edge.first << " - " << weighted_edge.edge.second << ": " << weighted_edge.weight << endl;
+    cout << weighted_edge.first << " - " << weighted_edge.second << ": " << weighted_edge.weight << endl;
   }
 
   return 0;
