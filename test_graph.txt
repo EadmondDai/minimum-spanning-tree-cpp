@@ -1,0 +1,12 @@
+4
+apple
+banana
+orange
+strawberry
+6
+apple,banana,3.0
+apple,strawberry,1.0
+apple,orange,2.0
+banana,orange,6.0
+banana,strawberry,4.0
+strawberry,orange,3.5
